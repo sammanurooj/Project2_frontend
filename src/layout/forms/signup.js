@@ -92,6 +92,19 @@ export default function FormUI({ onSubmit, formValues, handleInputChange }) {
                 value={formValues.password}
                 onChange={handleInputChange}
               />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="role"
+                label="Role"
+                name="role"
+                type="text"
+                autoFocus
+                variant="standard"
+                value={formValues.role}
+                onChange={handleInputChange}
+              />
               <Button
                 type="submit"
                 fullWidth

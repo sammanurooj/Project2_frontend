@@ -18,8 +18,10 @@ export default function SignIn() {
     const handleSubmit = async ({ email, password }) => {
         try {
             const response = await signInMutation.mutateAsync({ email, password });
-            console.log("hello", response);
-            localStorage.setItem('token', response.token);
+           
+            localStorage.setItem('token', response.data.token);
+            
+            localStorage.setItem('userid', response.data.userId);
 
             navigate("/");
         } catch (error) {
