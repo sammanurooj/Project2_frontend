@@ -11,10 +11,12 @@ export default function Signup() {
         name: '',
         email: '',
         password: '',
+        role: '',
+
     });
 
-    const signUpMutation = useMutation(async ({ name, email, password }) => {
-        const response = await axios.post('http://localhost:5000/api/users/signup', { name, email, password });
+    const signUpMutation = useMutation(async ({ name, email, password, role }) => {
+        const response = await axios.post('http://localhost:5000/api/users/signup', { name, email, password, role });
         console.log('this is data', response.data);
         return response.data;
     });
@@ -33,6 +35,7 @@ export default function Signup() {
                 name: '',
                 email: '',
                 password: '',
+                role: '',
             });
 
             navigate('/signin');

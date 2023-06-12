@@ -14,10 +14,12 @@ const Container = styled(Box)({
 });
 
 const Chatbox = styled(Box)({
-  backgroundColor: '#f5f5f5',
+  backgroundColor: 'white',
   padding: '10px',
   overflowY: 'auto',
   flex: '1',
+  border: "  #d9d9e3",
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 });
 
 const CardWrapper = styled(Box)({
@@ -26,12 +28,14 @@ const CardWrapper = styled(Box)({
 
 const UserTextCard = styled(Card)({
   marginBottom: '10px',
-  backgroundColor: '#92cbdf',
+  backgroundColor: 'white',
+
 });
 
 const SummarizedTextCard = styled(Card)({
   marginBottom: '10px',
-  backgroundColor: '#6bcf98',
+  backgroundColor: '#f3f3f9',
+  border: "solid #f3f3f9"
 });
 
 const FormUI = ({ formValues, handleSubmit, handleInputChange, messages }) => {
@@ -46,14 +50,14 @@ const FormUI = ({ formValues, handleSubmit, handleInputChange, messages }) => {
             <UserTextCard variant="outlined">
               <CardContent wordBreak="break-word">
                 <Typography variant="body1" gutterBottom>
-                   {message.userText}
+                  {message.userText}
                 </Typography>
               </CardContent>
             </UserTextCard>
             <SummarizedTextCard variant="outlined">
               <CardContent wordBreak="break-word">
                 <Typography variant="body2" gutterBottom>
-                {message.summarizedText}
+                  {message.summarizedText}
                 </Typography>
               </CardContent>
             </SummarizedTextCard>
