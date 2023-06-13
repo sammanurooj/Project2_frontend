@@ -7,6 +7,7 @@ import Mainpage from "../layout/mainPage";
 import Banner from "../components/summarizedBOT/index";
 import UserLocationtabledata from "../layout/userLocation";
 
+
 const Routing = () => {
   return (
     <>
@@ -17,6 +18,7 @@ const Routing = () => {
           <Route path="/signin" element={<Signin />} />
           <Route path="/banner" element={<Banner />} />
           <Route path="/usertabledata" element={<UserLocationtabledata />} />
+        
         </Routes>
       </BrowserRouter>
     </>
