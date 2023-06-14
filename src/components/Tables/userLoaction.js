@@ -29,7 +29,8 @@ const TableComponent = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
+            marginTop: "20px", // Adjust the marginTop value to reduce space
+            
           }}
         >
           <Card sx={{ width: "70%" }}>

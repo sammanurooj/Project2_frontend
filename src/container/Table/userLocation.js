@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { Delete, Update } from "@mui/icons-material";
+import EditSharpIcon from '@mui/icons-material/EditSharp';
+import Button from "@mui/material/Button";
 import {
   TableRow,
   TableCell,
@@ -105,7 +107,7 @@ const Index = () => {
               style={{ color: "red" }}
               onClick={() => handleDelete(rowData.id)}
             />
-            <Update
+            <EditSharpIcon
               style={{ color: "blue" }}
               onClick={() => handleUpdate(rowData.id)}
             />
@@ -116,10 +118,10 @@ const Index = () => {
       {/* Update form dialog */}
       {selectedRow && (
         <Dialog open={isUpdateFormOpen} onClose={handleUpdateFormClose}>
-          <DialogTitle style={{ backgroundColor: "#e3f2fd" }}>
+          <DialogTitle style={{ backgroundColor: "#1976d2", color:"white" }}>
             Update Location
           </DialogTitle>
-          <DialogContent>
+          <DialogContent style={{ margin: "0px" }} >
             <UpdateForm
               id={selectedRow.id}
               initialLocation={selectedRow.location}
@@ -127,6 +129,8 @@ const Index = () => {
               onCancel={handleUpdateFormClose}
             />
           </DialogContent>
+          
+          
         </Dialog>
       )}
     </>
