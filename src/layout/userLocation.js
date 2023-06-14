@@ -5,7 +5,6 @@ import AppBar from "../components/appBar";
 import UserLocationtable from "../components/Tables/userLoaction";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -48,7 +47,6 @@ function AddLocationForm({ onSave, onCancel }) {
 }
 
 function MainPage() {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleAddLocation = () => {
