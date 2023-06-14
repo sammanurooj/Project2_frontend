@@ -3,6 +3,8 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import SystemUpdateAltSharpIcon from '@mui/icons-material/SystemUpdateAltSharp'
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const UpdateForm = ({ id, initialLocation, onUpdate, onCancel }) => {
   const [updatedLocation, setUpdatedLocation] = useState(initialLocation);
@@ -45,12 +47,24 @@ const UpdateForm = ({ id, initialLocation, onUpdate, onCancel }) => {
           style={{ marginBottom: "10px", width: "100%" }}
         />
         <Box>
-          <Box>
-            <Button type="submit" onClick={handleUpdate}>
-              update
-            </Button>
-            <Button onClick={onCancel}>Cancel</Button>
-          </Box>
+          <Button
+            type="submit"
+            onClick={handleUpdate}
+            startIcon={<SystemUpdateAltSharpIcon />}
+            variant="contained"
+            color="primary"
+            style={{ marginRight: "10px" }}
+          >
+            Update
+          </Button>
+          <Button
+            onClick={onCancel}
+            startIcon={<CancelIcon />}
+            
+           
+          >
+            Cancel
+          </Button>
         </Box>
       </Box>
     </>

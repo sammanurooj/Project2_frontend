@@ -9,6 +9,9 @@ import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
+import CancelIcon from "@mui/icons-material/Cancel";
+
 
 function AddLocationForm({ onSave, onCancel }) {
   const [location, setLocation] = useState("");
@@ -38,8 +41,18 @@ function AddLocationForm({ onSave, onCancel }) {
           style={{ marginBottom: "10px", width: "100%" }}
         />
         <Box>
-          <Button type="submit">Save</Button>
-          <Button onClick={onCancel}>Cancel</Button>
+          <Button type="submit"
+          
+          startIcon={<AddCircleOutlineSharpIcon />}
+            variant="contained"
+            color="primary"
+            style={{ marginRight: "10px" }}
+          
+            
+          >Save</Button>
+          <Button 
+            startIcon={<CancelIcon />}
+          onClick={onCancel}>Cancel</Button>
         </Box>
       </Box>
     </form>
@@ -85,7 +98,7 @@ function MainPage() {
       <Box
         display="flex"
         justifyContent="flex-start"
-        marginTop={5}
+        marginTop={4}
         marginLeft={30}
       >
         <Button
@@ -98,13 +111,13 @@ function MainPage() {
         </Button>
       </Box>
       <Box>
-        <UserLocationtable />
+        <UserLocationtable mt={1}/>
       </Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{ backgroundColor: "#e3f2fd" }}>
+        <DialogTitle style={{ backgroundColor: "#1976d2", color:"white" }}>
           Add Location
         </DialogTitle>
-        <AddLocationForm
+        <AddLocationForm 
           onSave={handleSaveLocation.mutate}
           onCancel={handleClose}
         />
