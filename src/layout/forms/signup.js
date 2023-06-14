@@ -10,24 +10,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/system';
-
+import MenuItem from '@mui/material/MenuItem';
 const MyComponent2 = styled('div')({
   color: 'darkslategray',
   backgroundColor: '#EFE7E7',
-  marginTop:'15px',
-  marginRight:'550px',
-  marginLeft:'550px',
-  padding:'8px',
-  textAlign:'center',
-  borderRadius:'0.75rem',
-  border:'px solid',
-  boxShadow:'5',
+  marginTop: '15px',
+  marginRight: '550px',
+  marginLeft: '550px',
+  padding: '8px',
+  textAlign: 'center',
+  borderRadius: '0.75rem',
+  border: 'px solid',
+  boxShadow: '5',
   display: 'block',
 });
 
 const theme = createTheme();
 
-export default function FormUI({ onSubmit, formValues, handleInputChange }) {
+export default function FormUI({ onSubmit, formValues, handleInputChange, locationOptions }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit(formValues);
@@ -53,7 +53,7 @@ export default function FormUI({ onSubmit, formValues, handleInputChange }) {
               Sign up
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
+            <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -105,15 +105,35 @@ export default function FormUI({ onSubmit, formValues, handleInputChange }) {
                 value={formValues.role}
                 onChange={handleInputChange}
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <TextField
+  margin="normal"
+  required
+  fullWidth
+  id="location"
+  label="Location"
+  name="Location"
+  select
+  variant="standard"
+  value={formValues.Location} 
+  onChange={handleInputChange}
+  SelectProps={{
+    SelectDisplayProps: {
+      style: { textAlign: 'start' },
+    },
+  }}
+>
+  {locationOptions.map((option) => (
+    <MenuItem key={option.id} value={option.id}>
+      {option.location}
+    </MenuItem>
+  ))}
+</TextField>
+
+              {/* ...remaining form fields */}
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign UP
               </Button>
-              <Box sx={{ alignItems: 'center'}}>
+              <Box sx={{ alignItems: 'center' }}>
                 <Link href="/signin" variant="body2">
                   {"Do you have an account? Sign In"}
                 </Link>
