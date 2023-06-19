@@ -21,8 +21,6 @@ import { Menu as MenuIcon, Person } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 
-// import UserIntegration from '../container/appBar/userIntegration';
-
 const fetchUserList = async () => {
   const token = localStorage.getItem("token");
   const config = {
@@ -31,12 +29,32 @@ const fetchUserList = async () => {
     },
   };
   const userId = localStorage.getItem("userid");
-  const response = await axios.get(
+
+  const userResponse = await axios.get(
     `http://localhost:5000/api/users/${userId}`,
     config
   );
 
-  return response.data;
+  const userData = userResponse.data;
+
+  const locationId = userData?.data?.Location;
+
+
+
+  const locationResponse = await axios.get(
+    `http://localhost:5000/api/userlocation/${locationId}`,
+    config
+  );
+
+  const locationData = locationResponse.data;
+  console.log("location data", locationData)
+
+  return {
+    user: userData,
+    location: locationData,
+
+  };
+
 };
 
 const useUserList = () => {
@@ -44,8 +62,9 @@ const useUserList = () => {
 };
 function ResponsiveAppBar() {
   const { data: userList, isLoading } = useUserList();
+  const username = userList?.user?.data?.name;
+  const location = userList?.location?.data?.location;
 
-  const username = userList?.data?.name;
 
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -173,11 +192,15 @@ function ResponsiveAppBar() {
         </Typography>
         {isMdUp && (
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Typography variant="h6" style={{ flexGrow: 1, textAlign: "left" }}>
-              {username}
-            </Typography>
-
-            <IconButton
+            <div style={{ textAlign: "left", marginRight: "10px" }}>
+              <Typography variant="h6">
+                {username}
+              </Typography>
+              <Typography variant="subtitle1">
+                {location}
+              </Typography>
+            </div>
+             <IconButton
               style={{
                 color: "white",
                 flexGrow: 1,

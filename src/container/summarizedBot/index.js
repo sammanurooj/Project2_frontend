@@ -4,84 +4,120 @@ import { useMutation } from 'react-query';
 import FormUI from '../../components/summarizedBOT/index';
 
 const Chatbot = () => {
-    const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState({
+    userText: '',
+  });
+
+  const [messages, setMessages] = useState([]);
+
+  const addTextMutation = useMutation(async ({ userText, userID }) => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.post('http://localhost:5000/api/text/addtext', { userText, userID }, config);
+    console.log('this is data', response.data);
+    console.log('summary', response.data.data.SummarizeText);
+    return response.data.data;
+  });
+
+  const getDataFromSummaryTable = async (userID) => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.get(`http://localhost:5000/api/text/${userID}`, config);
+    console.log('getDataFromSummaryTable response:', response.data);
+
+    const messagesData = response.data.data.map((item) => ({
+      summarizedText: item.SummerizeText,
+      userText: item.userText,
+    }));
+
+    console.log("messages from user", messagesData);
+
+    setMessages(messagesData);
+  };
+
+  useEffect(() => {
+    if (addTextMutation.isSuccess && addTextMutation.data) {
+      const { userText, summarizedText } = addTextMutation.data;
+
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          summarizedText,
+          userText,
+        },
+      ]);
+
+      setFormValues({
         userText: '',
-    });
-
-    const [messages, setMessages] = useState([]);
-
-    const addtextmutation = useMutation(async ({ userText }) => {
-        const response = await axios.post('http://localhost:5000/api/text/addtext', { userText });
-        console.log('this is data', response.data);
-        console.log('summary', response.data.data.SummerizeText);
-        return response.data.data;
-    });
-
-    useEffect(() => {
-    if (addtextmutation.isSuccess) {
-        const { userText, SummerizeText } = addtextmutation.data;
-
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-                summarizedText: SummerizeText,
-                userText: userText
-            },
-        ]);
-
-        // Reset form fields
-        setFormValues({
-            userText: '',
-        });
+      });
     }
-}, [addtextmutation.isSuccess, addtextmutation.data]);
+  }, [addTextMutation.isSuccess, addTextMutation.data]);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-        if (formValues.userText.trim() === '') {
-            return alert('Please enter some text');
-        }
+    if (formValues.userText.trim() === '') {
+      return alert('Please enter some text');
+    }
 
-        addtextmutation.mutate({
-            userText: formValues.userText,
-        });
+    const userID = localStorage.getItem('userid');
 
-        if (addtextmutation.isLoading) {
-            return alert('Adding...');
-        }
+    addTextMutation.mutate({
+      userText: formValues.userText,
+      userID: userID,
+    });
 
-        if (addtextmutation.isError) {
-            return alert('Some network error');
-        }
+    if (addTextMutation.isLoading) {
+      return alert('Adding...');
+    }
 
-        if (addtextmutation.isSuccess) {
-            // Show success popup
-            alert('Successfully added');
+    if (addTextMutation.isError) {
+      return alert('Some network error');
+    }
 
-            // Reset form fields
-            setFormValues({
-                userText: '',
-            });
-        }
-    };
+    if (addTextMutation.isSuccess) {
+      alert('Successfully added');
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    };
+      setFormValues({
+        userText: '',
+      });
+    }
+  };
 
-    return (
-        <FormUI
-            formValues={formValues}
-            handleSubmit={handleSubmit}
-            handleInputChange={handleInputChange}
-            messages={messages}
-        />
-    );
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const userID = localStorage.getItem('userid');
+
+    if (userID) {
+      getDataFromSummaryTable(userID);
+    }
+  }, [addTextMutation.isSuccess, addTextMutation.data]);
+
+  return (
+    <FormUI
+      formValues={formValues}
+      handleSubmit={handleSubmit}
+      handleInputChange={handleInputChange}
+      messages={messages}
+    />
+  );
 };
 
 export default Chatbot;
